@@ -3,7 +3,7 @@ from enum import Enum
 from typing import Optional
 import math
 
-app = FastAPI(title="Simple Calculator using FastAPI with history")
+app = FastAPI(title="Simple Calculator using FastAPI with History")
 
 class Operation(str, Enum):
     add = "add"
@@ -12,11 +12,10 @@ class Operation(str, Enum):
     divide = "divide"
     power = "power"
     modulus = "modulus"
-    sqrt = "sqrt"      
-    factorial = "factorial"  
-    log = "log"              
-    log10 = "log10"          
-
+    sqrt = "sqrt"
+    factorial = "factorial"
+    log = "log"
+    log10 = "log10"
 
 history = []
 
@@ -32,7 +31,6 @@ def calculate(
     b: Optional[float] = Query(None, description="Second number (optional for some operations)")
 ):
     try:
-        
         if operation == Operation.add:
             if b is None:
                 raise HTTPException(status_code=400, detail="Second number is required for addition")
@@ -72,14 +70,11 @@ def calculate(
             add_to_history(f"MODULUS: {a} % {b} = {result}")
 
         elif operation == Operation.sqrt:
-            if b is None:
-                raise HTTPException(status_code=400, detail="Second number is required for sqrt operation")
-            if b < 0:
+            if a < 0:
                 raise HTTPException(status_code=400, detail="Square root of negative numbers is not allowed")
-            result = math.sqrt(b)
-            add_to_history(f"SQRT: √{b} = {result}")
+            result = math.sqrt(a)
+            add_to_history(f"SQRT: √{a} = {result}")
 
-       
         elif operation == Operation.factorial:
             if a < 0:
                 raise HTTPException(status_code=400, detail="Factorial of negative numbers is not allowed")
@@ -111,7 +106,6 @@ def calculate(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
 
 @app.get("/history/")
 def get_history():
