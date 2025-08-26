@@ -3,7 +3,7 @@ from enum import Enum
 from typing import Optional
 import math
 
-app = FastAPI(title="Enhanced Calculator API")
+app = FastAPI(title="Simple Calculator using FastAPI")
 
 class Operation(str, Enum):
     add = "add"
