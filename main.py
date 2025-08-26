@@ -5,7 +5,6 @@ import math
 
 app = FastAPI(title="Enhanced Calculator API")
 
-# Define available operations
 class Operation(str, Enum):
     add = "add"
     subtract = "subtract"
@@ -13,12 +12,12 @@ class Operation(str, Enum):
     divide = "divide"
     power = "power"
     modulus = "modulus"
-    sqrt = "sqrt"        # Two-input as per your request
-    factorial = "factorial"  # Single input
-    log = "log"              # Single input
-    log10 = "log10"          # Single input
+    sqrt = "sqrt"      
+    factorial = "factorial"  
+    log = "log"              
+    log10 = "log10"          
 
-# Store last 10 history entries
+
 history = []
 
 def add_to_history(entry: str):
@@ -33,7 +32,7 @@ def calculate(
     b: Optional[float] = Query(None, description="Second number (optional for some operations)")
 ):
     try:
-        # Basic operations
+        
         if operation == Operation.add:
             if b is None:
                 raise HTTPException(status_code=400, detail="Second number is required for addition")
@@ -72,7 +71,6 @@ def calculate(
             result = a % b
             add_to_history(f"MODULUS: {a} % {b} = {result}")
 
-        # √ is two-input (as you requested)
         elif operation == Operation.sqrt:
             if b is None:
                 raise HTTPException(status_code=400, detail="Second number is required for sqrt operation")
@@ -81,7 +79,7 @@ def calculate(
             result = math.sqrt(b)
             add_to_history(f"SQRT: √{b} = {result}")
 
-        # Single-input operations (b is optional)
+       
         elif operation == Operation.factorial:
             if a < 0:
                 raise HTTPException(status_code=400, detail="Factorial of negative numbers is not allowed")
